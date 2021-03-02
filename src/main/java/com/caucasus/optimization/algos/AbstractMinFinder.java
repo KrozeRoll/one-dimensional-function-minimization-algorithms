@@ -2,7 +2,7 @@ package com.caucasus.optimization.algos;
 
 import java.util.function.Function;
 
-public abstract class AbstractMinFinder implements MinFinder{
+public abstract class AbstractMinFinder implements IntervalMinFinder{
     protected final Solution solution;
     protected final Function<Double, Double> function;
     protected final Interval domain;

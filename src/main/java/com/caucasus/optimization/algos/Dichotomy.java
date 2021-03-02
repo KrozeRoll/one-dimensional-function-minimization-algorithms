@@ -9,6 +9,10 @@ public class Dichotomy extends AbstractMinFinder{
         super(function, leftBorder, rightBorder, eps, delta);
     }
 
+    public Dichotomy(Function<Double, Double> function, Interval domain, double eps, double delta) {
+        super(function, domain, eps, delta);
+    }
+
     @Override
     Solution calculateSolution() {
         double left = getLeftBorder();

@@ -11,6 +11,12 @@ public class doubleComparator implements Comparator<Double> {
 
     @Override
     public int compare(Double lhs, Double rhs) {
-        return 0;
+        if (Math.abs(rhs - lhs) < eps) {
+            return 0;
+        }
+        if (lhs - rhs < eps) {
+            return -1;
+        }
+        return 1;
     }
 }

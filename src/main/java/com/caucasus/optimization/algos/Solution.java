@@ -10,4 +10,12 @@ public class Solution {
         this.intervals = intervals;
         this.endPoint = endPoint;
     }
+
+    public ArrayList<Interval> getIntervals() {
+        return intervals;
+    }
+
+    public double getEndPoint() {
+        return endPoint;
+    }
 }
