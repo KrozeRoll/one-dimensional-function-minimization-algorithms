@@ -38,7 +38,6 @@ public class Dichotomy extends AbstractIntervalMinFinder {
         return (rb - lb) * 0.5;
     }
 
-    // FiXME write right approach to compare doubles
     private boolean validateAccuracy(double lb, double rb) {
         return compare(calcNthEps(lb, rb), eps) <= 0;
     }

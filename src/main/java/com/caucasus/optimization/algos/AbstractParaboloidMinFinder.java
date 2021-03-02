@@ -11,10 +11,10 @@ abstract public class AbstractParaboloidMinFinder extends AbstractMinFinder impl
 
     public AbstractParaboloidMinFinder(Function<Double, Double> function, Interval domain, double eps, double delta) {
         super(function, domain, eps, delta);
-        this.paraboloidSolution = calculateSolution();
+        this.paraboloidSolution = calculateParaboloidSolution();
     }
 
-    abstract ParaboloidSolution calculateSolution();
+    abstract ParaboloidSolution calculateParaboloidSolution();
 
     @Override
     public ParaboloidSolution getParaboloidSolution() {
