@@ -2,10 +2,10 @@ package com.caucasus.optimization.algos;
 
 import java.util.Comparator;
 
-public class doubleComparator implements Comparator<Double> {
+public class DoubleComparator implements Comparator<Double> {
     private final double eps;
 
-    public doubleComparator(double eps) {
+    public DoubleComparator(double eps) {
         this.eps = eps;
     }
 

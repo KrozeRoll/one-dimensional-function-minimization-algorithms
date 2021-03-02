@@ -1,31 +1,25 @@
 package com.caucasus.optimization.algos;
 
+import java.util.Comparator;
 import java.util.function.Function;
 
 public abstract class AbstractMinFinder implements IntervalMinFinder{
-    protected final Solution solution;
     protected final Function<Double, Double> function;
     protected final Interval domain;
     protected final double eps;
     protected final double delta;
-
-    public AbstractMinFinder(Function<Double, Double> function, double leftBorder, double rightBorder, double eps, double delta) {
-        this(function, new Interval(leftBorder, rightBorder), eps, delta);
-    }
+    protected final Comparator<Double> comparator;
 
     public AbstractMinFinder(Function<Double, Double> function, Interval domain, double eps, double delta) {
         this.function = function;
         this.domain = domain;
         this.eps = eps;
         this.delta = delta;
-        this.solution = calculateSolution();
+        this.comparator = new DoubleComparator(eps);
     }
 
-    abstract Solution calculateSolution();
-
-    @Override
-    public Solution getSolution() {
-        return solution;
+    protected int compare(Double lhs, Double rhs) {
+        return comparator.compare(lhs, rhs);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.caucasus.optimization.algos;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class Dichotomy extends AbstractMinFinder{
+public class Dichotomy extends AbstractIntervalMinFinder {
 
     public Dichotomy(Function<Double, Double> function, double leftBorder, double rightBorder, double eps, double delta) {
         super(function, leftBorder, rightBorder, eps, delta);
@@ -22,7 +22,7 @@ public class Dichotomy extends AbstractMinFinder{
         while (!validateAccuracy(left, right)) {
             final double x1 = (left + right - delta) * 0.5;
             final double x2 = (left + right + delta) * 0.5;
-            if (function.apply(x1) <= function.apply(x2)) {
+            if (compare(function.apply(x1), function.apply(x2)) <= 0) {
                 right = x2;
             } else {
                 left = x1;
@@ -38,8 +38,8 @@ public class Dichotomy extends AbstractMinFinder{
         return (rb - lb) * 0.5;
     }
 
-// FiXME write right approach to compare doubles
+    // FiXME write right approach to compare doubles
     private boolean validateAccuracy(double lb, double rb) {
-        return calcNthEps(lb, rb) <= eps;
+        return compare(calcNthEps(lb, rb), eps) <= 0;
     }
 }
