@@ -1,4 +1,4 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.interfaces;
 
 import java.util.function.Function;
 

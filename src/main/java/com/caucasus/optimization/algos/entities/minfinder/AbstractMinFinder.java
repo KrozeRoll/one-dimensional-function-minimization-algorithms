@@ -1,9 +1,13 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.minfinder;
+
+import com.caucasus.optimization.algos.entities.util.DoubleComparator;
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.interfaces.MinFinder;
 
 import java.util.Comparator;
 import java.util.function.Function;
 
-public abstract class AbstractMinFinder implements MinFinder{
+public abstract class AbstractMinFinder implements MinFinder {
     private final Function<Double, Double> function;
     private final Interval domain;
     private final double eps;

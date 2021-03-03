@@ -1,4 +1,7 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.minfinder;
+
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.ParaboloidSolution;
 
 import java.util.ArrayList;
 import java.util.function.Function;
@@ -13,7 +16,7 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
     }
 
     @Override
-    ParaboloidSolution calculateParaboloidSolution() {
+    public ParaboloidSolution calculateParaboloidSolution() {
         double leftBorder = getLeftBorder();
         double rightBorder = getRightBorder();
         ArrayList<Interval> intervals = new ArrayList<>();
