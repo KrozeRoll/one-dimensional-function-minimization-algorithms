@@ -1,6 +1,7 @@
 package com.caucasus.optimization.algos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.function.Function;
 
 public class Fibonacci extends AbstractIntervalMinFinder {
@@ -52,18 +53,30 @@ public class Fibonacci extends AbstractIntervalMinFinder {
     }
 
     static class FibonacciGenerator {
+        static final ArrayList<Long> list = generate();
 
         /**
          * @param n serial number
          * @return nth Fibonacci number
          */
         static public long getNth(int n) {
-            return 0;
+            return list.get(n);
         }
 
         // TODO implement indexOfGreater
         static public int findIndexOfGreater(long num) {
-            return 0;
+            int pos = Collections.binarySearch(list, num);
+            return (pos < 0) ? -pos - 1 : pos;
+        }
+
+        private static ArrayList<Long> generate() {
+            ArrayList<Long> list = new ArrayList<>();
+            list.add(1L);
+            list.add(1L);
+            for (int i = 2; i < 89; i++) {
+                list.add(list.get(i - 1) + list.get(i - 2));
+            }
+            return list;
         }
     }
 }
