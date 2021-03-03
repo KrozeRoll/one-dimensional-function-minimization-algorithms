@@ -18,6 +18,8 @@ public class Dichotomy extends AbstractIntervalMinFinder {
         double leftBorder = getLeftBorder();
         double rightBorder = getRightBorder();
         ArrayList<Interval> intervals = new ArrayList<>();
+        ArrayList<Double> approximatelyMinimums = new ArrayList<>();
+        approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         intervals.add(new Interval(leftBorder, rightBorder));
         while (!validateAccuracy(leftBorder, rightBorder)) {
             final double x1 = (leftBorder + rightBorder - getDelta()) * 0.5;
@@ -28,10 +30,9 @@ public class Dichotomy extends AbstractIntervalMinFinder {
                 leftBorder = x1;
             }
             intervals.add(new Interval(leftBorder, rightBorder));
+            approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         }
-        double endPoint = (leftBorder + rightBorder) * 0.5;
-
-        return new Solution(intervals, endPoint);
+        return new Solution(intervals, approximatelyMinimums);
     }
 
     private double getDelta() {

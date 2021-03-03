@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Solution {
     private final ArrayList<Interval> intervals;
-    private final double endPoint;
+    private final ArrayList<Double> approximatelyMinimums;
 
-    public Solution(ArrayList<Interval> intervals, double endPoint) {
+    public Solution(ArrayList<Interval> intervals, ArrayList<Double> approximatelyMin) {
         this.intervals = intervals;
-        this.endPoint = endPoint;
+        this.approximatelyMinimums = approximatelyMin;
     }
 
     public ArrayList<Interval> getIntervals() {
@@ -16,6 +16,10 @@ public class Solution {
     }
 
     public double getEndPoint() {
-        return endPoint;
+       return approximatelyMinimums.get(approximatelyMinimums.size() - 1);
+    }
+
+    public ArrayList<Double> getApproximatelyMinimums() {
+        return approximatelyMinimums;
     }
 }

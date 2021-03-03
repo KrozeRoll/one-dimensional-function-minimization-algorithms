@@ -19,6 +19,8 @@ public class GoldenSection extends AbstractIntervalMinFinder {
         double leftBorder = getLeftBorder();
         double rightBorder = getRightBorder();
         ArrayList<Interval> intervals = new ArrayList<>();
+        ArrayList<Double> approximatelyMinimums = new ArrayList<>();
+        approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         intervals.add(new Interval(leftBorder, rightBorder));
         double x1 = leftBorder + (1 - TAU) * (rightBorder - leftBorder);
         double x2 = leftBorder + TAU * (rightBorder - leftBorder);
@@ -35,10 +37,10 @@ public class GoldenSection extends AbstractIntervalMinFinder {
             }
             nthEps *= TAU;
             intervals.add(new Interval(leftBorder, rightBorder));
+            approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         }
-        double endPoint = (leftBorder + rightBorder) * 0.5;
 
-        return new Solution(intervals, endPoint);
+        return new Solution(intervals, approximatelyMinimums);
     }
 
 }

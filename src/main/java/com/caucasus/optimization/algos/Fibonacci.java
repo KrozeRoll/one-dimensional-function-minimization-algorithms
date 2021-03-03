@@ -17,6 +17,8 @@ public class Fibonacci extends AbstractIntervalMinFinder {
         double leftBorder = getLeftBorder();
         double rightBorder = getRightBorder();
         ArrayList<Interval> intervals = new ArrayList<>();
+        ArrayList<Double> approximatelyMinimums = new ArrayList<>();
+        approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         intervals.add(new Interval(leftBorder, rightBorder));
         final int numberOfIterations = FibonacciGenerator.findIndexOfGreater((long) ((rightBorder - leftBorder) / getEps()));
         double x1 = leftBorder + calcRatioOfNthFibonacci(numberOfIterations, numberOfIterations + 2) * (rightBorder - leftBorder);
@@ -32,6 +34,7 @@ public class Fibonacci extends AbstractIntervalMinFinder {
                 x2 = leftBorder + calcRatioOfNthFibonacci(numberOfIterations - i - 2, numberOfIterations - i - 1) * (rightBorder - leftBorder);
             }
             intervals.add(new Interval(leftBorder, rightBorder));
+            approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         }
         x2 = x1 + getEps();
         if (compare(getFunction().apply(x1), getFunction().apply(x2)) == 0) {
@@ -40,8 +43,8 @@ public class Fibonacci extends AbstractIntervalMinFinder {
             rightBorder = x2;
         }
         intervals.add(new Interval(leftBorder, rightBorder));
-        final double endPoint = (leftBorder + rightBorder) * 0.5;
-        return new Solution(intervals, endPoint);
+        approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
+        return new Solution(intervals, approximatelyMinimums);
     }
 
     private double calcRatioOfNthFibonacci(int numeratorSerial, int denominatorSerial) {
@@ -49,7 +52,6 @@ public class Fibonacci extends AbstractIntervalMinFinder {
     }
 
     static class FibonacciGenerator {
-        // TODO implement getNth
 
         /**
          * @param n serial number

@@ -2,7 +2,7 @@ package com.caucasus.optimization.algos;
 
 import java.util.function.Function;
 
-public class Paraboloid extends AbstractParaboloidMinFinder{
+public class Paraboloid extends AbstractParaboloidMinFinder {
     public Paraboloid(Function<Double, Double> function, double leftBorder, double rightBorder, double eps) {
         super(function, leftBorder, rightBorder, eps);
     }
@@ -13,6 +13,38 @@ public class Paraboloid extends AbstractParaboloidMinFinder{
 
     @Override
     ParaboloidSolution calculateParaboloidSolution() {
+        // FIXME
+        double x1;
+        double x2;
+        double x3;
+
+
         return null;
     }
+
+    private class Parabola {
+        private final Function<Double, Double> function;
+        private final double pointOfMin;
+
+        public Parabola(double x1, double x2, double x3) {
+            final double f1 = getFunction().apply(x1);
+            final double f2 = getFunction().apply(x2);
+            final double f3 = getFunction().apply(x3);
+            final double a0 = f1;
+            final double a1 = (f2 - f1) / (x2 - x1);
+            final double a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
+            this.function =  x -> a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
+            this.pointOfMin = (x1 + x2 + a1 / a2) * 0.5;
+        }
+
+        public Function<Double, Double> getFunction() {
+            return function;
+        }
+
+        public double getPointOfMin() {
+            return pointOfMin;
+        }
+    }
+
+
 }
