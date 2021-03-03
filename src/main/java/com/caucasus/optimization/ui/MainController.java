@@ -1,44 +1,174 @@
 package com.caucasus.optimization.ui;
 
-import com.caucasus.optimization.algos.Dichotomy;
+import com.caucasus.optimization.algos.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+
+import java.util.function.Function;
 
 public class MainController {
 
     @FXML
     private Label methodName;
+    @FXML
+    private TextField epsTextField;
+    @FXML
+    private Slider iterationSlider;
+    @FXML
+    private Label iterationNumberLabel;
+    @FXML
+    private Label leftLabel;
+    @FXML
+    private Label approxLabel;
+    @FXML
+    private Label rightLabel;
+    @FXML
+    private LineChart<Double, Double> lineChart;
+
+    final Function<Double, Double> function = x -> Math.exp(3 * x) + 5 * Math.exp(-2 * x);
+    final Interval interval = new Interval(0, 1);
+    final Double DEFAULT_EPS = 0.00001;
+
+
+    private Solution dichotomySolution, goldenSectionSolution, fibonacciSolution, brentSolution;
+    private ParaboloidSolution paraboloidSolution;
+
+    private Methods currentMethod = Methods.DICHOTOMY;
+
+    private int iterationNumber;
+    private XYChart.Series<Double, Double> series;
+
+    public void initialize() {
+        iterationSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            iterationNumber = newValue.intValue();
+            updateWindow();
+        });
+
+        calculateSolutions(DEFAULT_EPS);
+        setupMethod(currentMethod);
+        plotLineSeries(function, interval, 40);
+        updateWindow();
+    }
+
+    private void updateWindow() {
+        iterationNumberLabel.setText(Integer.toString(iterationNumber));
+        double left = getCurrentSolution().getIntervals().get(iterationNumber).getLeftBorder();
+        double right = getCurrentSolution().getIntervals().get(iterationNumber).getRightBorder();
+        double approx = getCurrentSolution().getApproximatelyMinimums().get(iterationNumber);
+        leftLabel.setText(String.format("%.5f", left));
+        rightLabel.setText(String.format("%.5f", right));
+        approxLabel.setText(String.format("%.5f", approx));
+
+        //clearChart();
+        //lineChart.getData().add(series);
+        if (currentMethod.needPlot) {
+            //TODO
+        } else {
+            drawBorderPoints(left, right, approx);
+        }
+    }
+
+    private void drawBorderPoints(Double left, Double right, Double approx) {
+    }
+
+    private void plotLineSeries(
+            final Function<Double, Double> function, final Interval interval, final int stepCount) {
+        double step = (interval.getRightBorder() - interval.getLeftBorder()) / stepCount;
+
+        final XYChart.Series<Double, Double> series = new XYChart.Series<Double, Double>();
+        for (double x = interval.getLeftBorder(); x < interval.getRightBorder(); x += step) {
+            plotPoint(x, function.apply(x), series);
+        }
+        plotPoint(interval.getRightBorder(), function.apply(interval.getRightBorder()), series);
+
+        lineChart.getData().add(series);
+        lineChart.setCreateSymbols(false);
+        lineChart.setLegendVisible(false);
+
+
+    }
+
+    private void plotPoint(final double x, final double y,
+                           final XYChart.Series<Double, Double> series) {
+        series.getData().add(new XYChart.Data<Double, Double>(x, y));
+    }
+
+    public void clearChart() {
+        lineChart.getData().clear();
+    }
+
+    private void calculateSolutions(Double eps) {
+        dichotomySolution = new Dichotomy(function, interval, eps).getSolution();
+        goldenSectionSolution = new GoldenSection(function, interval, eps).getSolution();
+        fibonacciSolution = new Fibonacci(function, interval, eps).getSolution();
+        brentSolution = new Brent(function, interval, eps).getSolution();
+        //paraboloidSolution = new Paraboloid(function, interval, eps).getParaboloidSolution();
+    }
 
     @FXML
     private void clickCalculate(ActionEvent event) {
-        methodName.setText("Calc");
+        double eps;
+        try {
+            eps = Double.parseDouble(epsTextField.getText());
+        } catch (NumberFormatException e) {
+            epsTextField.setText("Invalid argument");
+            return;
+        }
+        calculateSolutions(eps);
+        setupMethod(currentMethod);
+    }
+
+    private Solution getCurrentSolution() {
+        Solution solution;
+        switch (currentMethod) {
+            case DICHOTOMY: solution = dichotomySolution; break;
+            case GOLDEN_SECTION: solution = goldenSectionSolution; break;
+            case FIBONACCI: solution = fibonacciSolution; break;
+            case PARABOLOID: solution = paraboloidSolution; break;
+            case BRENT: solution = brentSolution; break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + currentMethod);
+        }
+        return solution;
+    }
+
+    private void setupMethod(Methods choosedMethod) {
+        currentMethod = choosedMethod;
+        iterationSlider.setValue(0);
+        iterationSlider.setMax(getCurrentSolution().getIntervals().size() - 1);
+        iterationSlider.setMinorTickCount(getCurrentSolution().getIntervals().size() - 1);
+        iterationSlider.setMajorTickUnit(getCurrentSolution().getIntervals().size() - 1);
+        methodName.setText(currentMethod.getLabelString());
     }
 
     @FXML
     private void clickDichotomy(ActionEvent event) {
-        methodName.setText("Dichotomy method");
+        setupMethod(Methods.DICHOTOMY);
     }
 
     @FXML
-    private void clickGoldenRatio(ActionEvent event) {
-        methodName.setText("Golden ratio method");
+    private void clickGoldenSection(ActionEvent event) {
+        setupMethod(Methods.GOLDEN_SECTION);
     }
 
     @FXML
     private void clickFibonacci(ActionEvent event) {
-        methodName.setText("Fibonacci method");
+        setupMethod(Methods.FIBONACCI);
     }
 
     @FXML
-    private void clickParabola(ActionEvent event) {
-        methodName.setText("Parabola method");
+    private void clickParaboloid(ActionEvent event) {
+        setupMethod(Methods.PARABOLOID);
     }
 
     @FXML
     private void clickBrent(ActionEvent event) {
-        methodName.setText("Combined Brent method");
+        setupMethod(Methods.BRENT);
     }
 
 

@@ -26,13 +26,13 @@
 
 
     <AnchorPane StackPane.alignment="CENTER" maxHeight="650" maxWidth="800" >
-        <Label text = "Eps = " AnchorPane.leftAnchor="50" AnchorPane.topAnchor="5">
+        <Label text = "Eps = " AnchorPane.leftAnchor="50" AnchorPane.topAnchor="3">
             <font>
                 <Font size = "25"/>
             </font>
         </Label>
 
-        <TextField AnchorPane.leftAnchor="120" fx:id="epsTextField">
+        <TextField AnchorPane.leftAnchor="120" fx:id="epsTextField" text = "0.00001">
             <font>
                 <Font size = "20"/>
             </font>
@@ -40,7 +40,7 @@
 
         <Button text = "Calculate" onAction="#clickCalculate" AnchorPane.leftAnchor="500" prefHeight="50"/>
 
-        <LineChart fx:id="linechart" layoutX="140" layoutY="50.0" prefHeight="500" prefWidth="500">
+        <LineChart fx:id="lineChart" layoutX="140" layoutY="50.0" prefHeight="500" prefWidth="500">
             <xAxis>
                 <NumberAxis fx:id="xAxis" upperBound="1"/>
             </xAxis>
@@ -50,17 +50,21 @@
         </LineChart>
 
         <Label text="left" layoutX="300" layoutY="540"/>
-        <Label text="aprox" layoutX="370" layoutY="540"/>
+        <Label text="approx" layoutX="370" layoutY="540"/>
         <Label text="right" layoutX="450" layoutY="540"/>
 
         <Label fx:id="leftLabel" text="0" layoutX="300" layoutY="560"/>
-        <Label fx:id="aproxLabel" text="0" layoutX="370" layoutY="560"/>
+        <Label fx:id="approxLabel" text="0" layoutX="370" layoutY="560"/>
         <Label fx:id="rightLabel" text="0" layoutX="450" layoutY="560"/>
 
 
-        <Slider fx:id="iterationSlider" layoutX="250" layoutY="620" prefWidth="300">
+        <Label text="iteration" layoutX="150" layoutY="617"/>
+        <Label fx:id="iterationNumberLabel" text = "0" layoutX="200" layoutY="617"/>
 
-        </Slider>
+        <Slider fx:id="iterationSlider" layoutX="250" layoutY="620" prefWidth="300" snapToTicks="true" showTickMarks="true" minorTickCount="16"/>
+
+
+
     </AnchorPane>
 
 
@@ -68,14 +72,14 @@
         <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Dichotomy method"
                 HBox.hgrow="ALWAYS" onAction="#clickDichotomy"/>
 
-        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Golden ratio method"
-                HBox.hgrow="ALWAYS" onAction="#clickGoldenRatio"/>
+        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Golden section method"
+                HBox.hgrow="ALWAYS" onAction="#clickGoldenSection"/>
 
         <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Fibonacci method"
                 HBox.hgrow="ALWAYS" onAction="#clickFibonacci"/>
 
         <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Parabola method"
-                HBox.hgrow="ALWAYS" onAction="#clickParabola"/>
+                HBox.hgrow="ALWAYS" onAction="#clickParaboloid"/>
 
         <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Brent method"
                 HBox.hgrow="ALWAYS" onAction="#clickBrent"/>
