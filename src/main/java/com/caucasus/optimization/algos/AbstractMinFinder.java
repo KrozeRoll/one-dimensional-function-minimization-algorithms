@@ -3,12 +3,12 @@ package com.caucasus.optimization.algos;
 import java.util.Comparator;
 import java.util.function.Function;
 
-public abstract class AbstractMinFinder implements IntervalMinFinder{
-    protected final Function<Double, Double> function;
-    protected final Interval domain;
-    protected final double eps;
-    protected final double delta;
-    protected final Comparator<Double> comparator;
+public abstract class AbstractMinFinder implements MinFinder{
+    private final Function<Double, Double> function;
+    private final Interval domain;
+    private final double eps;
+    private final double delta;
+    private final Comparator<Double> comparator;
 
     public AbstractMinFinder(Function<Double, Double> function, Interval domain, double eps, double delta) {
         this.function = function;
