@@ -6,12 +6,12 @@ import java.util.function.Function;
 public class GoldenSection extends AbstractIntervalMinFinder {
     private final double TAU = (Math.sqrt(5) - 1) * 0.5;
 
-    public GoldenSection(Function<Double, Double> function, double leftBorder, double rightBorder, double eps, double delta) {
-        super(function, leftBorder, rightBorder, eps, delta);
+    public GoldenSection(Function<Double, Double> function, double leftBorder, double rightBorder, double eps) {
+        super(function, leftBorder, rightBorder, eps);
     }
 
-    public GoldenSection(Function<Double, Double> function, Interval domain, double eps, double delta) {
-        super(function, domain, eps, delta);
+    public GoldenSection(Function<Double, Double> function, Interval domain, double eps) {
+        super(function, domain, eps);
     }
 
     @Override

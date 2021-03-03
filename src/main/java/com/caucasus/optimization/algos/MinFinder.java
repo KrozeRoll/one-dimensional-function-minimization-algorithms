@@ -12,6 +12,4 @@ public interface MinFinder {
 
     double getEps();
 
-    double getDelta();
-
 }

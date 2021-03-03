@@ -5,12 +5,12 @@ import java.util.function.Function;
 
 public class Dichotomy extends AbstractIntervalMinFinder {
 
-    public Dichotomy(Function<Double, Double> function, double leftBorder, double rightBorder, double eps, double delta) {
-        super(function, leftBorder, rightBorder, eps, delta);
+    public Dichotomy(Function<Double, Double> function, double leftBorder, double rightBorder, double eps) {
+        super(function, leftBorder, rightBorder, eps);
     }
 
-    public Dichotomy(Function<Double, Double> function, Interval domain, double eps, double delta) {
-        super(function, domain, eps, delta);
+    public Dichotomy(Function<Double, Double> function, Interval domain, double eps) {
+        super(function, domain, eps);
     }
 
     @Override
@@ -32,6 +32,10 @@ public class Dichotomy extends AbstractIntervalMinFinder {
         double endPoint = (leftBorder + rightBorder) * 0.5;
 
         return new Solution(intervals, endPoint);
+    }
+
+    private double getDelta() {
+        return getEps() * 0.5;
     }
 
     private double calcNthEps(double lb, double rb) {
