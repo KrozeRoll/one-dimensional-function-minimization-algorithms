@@ -36,7 +36,8 @@ public class MainController {
     final Function<Double, Double> function = x -> Math.exp(3.0D * x) + 5 * Math.exp(-2.0D * x);
     final Interval interval = new Interval(0, 1);
     final Double DEFAULT_EPS = 0.00001;
-    final private XYChart.Series<Double, Double> functionSeries = plotLineSeries(function, interval, 100);
+    final int PLOT_STEP_COUNT = 100;
+    final private XYChart.Series<Double, Double> functionSeries = plotLineSeries(function, interval, PLOT_STEP_COUNT);
 
     private Solution dichotomySolution, goldenSectionSolution, fibonacciSolution, brentSolution;
     private ParaboloidSolution paraboloidSolution;
@@ -71,10 +72,15 @@ public class MainController {
         clearChart();
         lineChart.getData().add(functionSeries);
         if (currentMethod.needPlot) {
-            //TODO
+            drawParaboloid(getCurrentParaboloidSolution().getParabolas().get(iterationNumber), interval);
         } else {
             drawBorderPoints(left, right, approx);
         }
+    }
+
+    private void drawParaboloid(final Function<Double, Double> parabola, Interval interval) {
+        XYChart.Series<Double, Double> series = plotLineSeries(parabola, interval, PLOT_STEP_COUNT);
+        lineChart.getData().add(series);
     }
 
     private void drawBorderPoints(Double left, Double right, Double approx) {
@@ -143,6 +149,16 @@ public class MainController {
             case BRENT: solution = brentSolution; break;
             default:
                 throw new IllegalStateException("Unexpected value: " + currentMethod);
+        }
+        return solution;
+    }
+
+    private ParaboloidSolution getCurrentParaboloidSolution() {
+        ParaboloidSolution solution;
+        if (currentMethod == Methods.PARABOLOID) {
+            solution = paraboloidSolution;
+        } else {
+            throw new IllegalStateException("Unexpected value: " + currentMethod);
         }
         return solution;
     }
