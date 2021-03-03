@@ -1,4 +1,4 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.util;
 
 public class Interval {
     private final double leftBorder;

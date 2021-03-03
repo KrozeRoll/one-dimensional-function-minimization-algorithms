@@ -1,5 +1,9 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.minfinder;
 
+
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.Solution;
+import com.caucasus.optimization.algos.interfaces.IntervalMinFinder;
 
 import java.util.function.Function;
 
@@ -22,5 +26,5 @@ abstract public class AbstractIntervalMinFinder extends AbstractMinFinder implem
         return solution;
     }
 
-    abstract Solution calculateSolution();
+    protected abstract Solution calculateSolution();
 }

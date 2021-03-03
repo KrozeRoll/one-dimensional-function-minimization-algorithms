@@ -1,6 +1,9 @@
 package com.caucasus.optimization.ui;
 
-import com.caucasus.optimization.algos.*;
+import com.caucasus.optimization.algos.entities.minfinder.*;
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.ParaboloidSolution;
+import com.caucasus.optimization.algos.entities.util.Solution;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;

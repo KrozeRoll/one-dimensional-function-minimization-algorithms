@@ -1,6 +1,8 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.minfinder;
 
-import java.util.ArrayList;
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.Solution;
+
 import java.util.function.Function;
 
 public class Brent extends AbstractIntervalMinFinder {

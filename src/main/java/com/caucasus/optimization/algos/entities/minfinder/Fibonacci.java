@@ -1,4 +1,7 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.minfinder;
+
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.Solution;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +17,7 @@ public class Fibonacci extends AbstractIntervalMinFinder {
     }
 
     @Override
-    Solution calculateSolution() {
+    public Solution calculateSolution() {
         double leftBorder = getLeftBorder();
         double rightBorder = getRightBorder();
         ArrayList<Interval> intervals = new ArrayList<>();

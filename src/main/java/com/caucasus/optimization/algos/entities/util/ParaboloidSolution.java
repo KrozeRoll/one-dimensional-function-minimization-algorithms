@@ -1,9 +1,12 @@
-package com.caucasus.optimization.algos;
+package com.caucasus.optimization.algos.entities.util;
+
+import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.Solution;
 
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class ParaboloidSolution extends Solution{
+public class ParaboloidSolution extends Solution {
     private final ArrayList<Function<Double, Double>> parabolas;
 
     public ParaboloidSolution(ArrayList<Interval> intervals, ArrayList<Double> approximatelyMinimums, ArrayList<Function<Double, Double>> parabolas) {
