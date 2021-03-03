@@ -30,7 +30,7 @@ public class MainController {
     @FXML
     private LineChart<Double, Double> lineChart;
 
-    final Function<Double, Double> function = x -> Math.exp(3 * x) + 5 * Math.exp(-2 * x);
+    final Function<Double, Double> function = x -> Math.exp(3.0D * x) + 5 * Math.exp(-2.0D * x);
     final Interval interval = new Interval(0, 1);
     final Double DEFAULT_EPS = 0.00001;
 
