@@ -6,8 +6,8 @@ import java.util.function.Function;
 public class ParaboloidSolution extends Solution{
     private final ArrayList<Function<Double, Double>> parabolas;
 
-    public ParaboloidSolution(ArrayList<Interval> intervals, double endPoint, ArrayList<Function<Double, Double>> parabolas) {
-        super(intervals, endPoint);
+    public ParaboloidSolution(ArrayList<Interval> intervals, ArrayList<Double> approximatelyMinimums, ArrayList<Function<Double, Double>> parabolas) {
+        super(intervals, approximatelyMinimums);
         this.parabolas = parabolas;
     }
 
