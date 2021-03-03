@@ -21,17 +21,42 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         ArrayList<Double> approximatelyMinimums = new ArrayList<>();
         intervals.add(new Interval(leftBorder, rightBorder));
         // FIXME
-        double x1 = 0;
-        double x2 = 0;
-        double x3 = 0;
+        double x1 = leftBorder;
+        double x2 = (leftBorder + rightBorder) * 0.5;
+        double x3 = rightBorder;
         Parabola parabola = new Parabola(x1, x2, x3);
         approximatelyMinimums.add(parabola.getPointOfMin());
         functions.add(parabola.getFunction());
         while (!validateAccuracy(leftBorder, rightBorder)) {
-            if (compare(x1, x2) < 0);
+            if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
+            && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) >= 0) {
+                leftBorder = parabola.getPointOfMin();
+                rightBorder = x3;
+                x1 = parabola.getPointOfMin();
+            } else if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
+                    && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) < 0) {
+                leftBorder = x1;
+                rightBorder = x2;
+                x3 = x2;
+                x2 = parabola.getPointOfMin();
+            } else if (compare(x2, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x3) < 0
+                    && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) <= 0) {
+                leftBorder = x2;
+                rightBorder = x3;
+                x1 = x2;
+                x2 = parabola.getPointOfMin();
+            } else {
+                leftBorder = x1;
+                rightBorder = parabola.getPointOfMin();
+                x3 = parabola.getPointOfMin();
+            }
+            intervals.add(new Interval(leftBorder, rightBorder));
+            parabola = new Parabola(x1, x2, x3);
+            approximatelyMinimums.add(parabola.getPointOfMin());
+            functions.add(parabola.getFunction());
         }
 
-        return null;
+        return new ParaboloidSolution(intervals, approximatelyMinimums, functions);
     }
 
     private double calcNthEps(double lb, double rb) {
