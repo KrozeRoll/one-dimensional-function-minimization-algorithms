@@ -25,7 +25,7 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         double x3 = rightBorder;
         Parabola parabola = new Parabola(x1, x2, x3);
         approximatelyMinimums.add(parabola.getPointOfMin());
-        functions.add(parabola.getFunction());
+        functions.add(parabola.getParabolaFunction());
         while (!validateAccuracy(leftBorder, rightBorder)) {
             if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
             && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) >= 0) {
@@ -52,7 +52,7 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
             intervals.add(new Interval(leftBorder, rightBorder));
             parabola = new Parabola(x1, x2, x3);
             approximatelyMinimums.add(parabola.getPointOfMin());
-            functions.add(parabola.getFunction());
+            functions.add(parabola.getParabolaFunction());
         }
 
         return new ParaboloidSolution(intervals, approximatelyMinimums, functions);
@@ -67,7 +67,7 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
     }
 
     private class Parabola {
-        private final Function<Double, Double> function;
+        private final Function<Double, Double> parabolaFunction;
         private final double pointOfMin;
 
         public Parabola(double x1, double x2, double x3) {
@@ -76,12 +76,12 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
             final double f3 = getFunction().apply(x3);
             final double a1 = (f2 - f1) / (x2 - x1);
             final double a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
-            this.function =  x -> f1 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
+            this.parabolaFunction = x -> f1 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
             this.pointOfMin = (x1 + x2 + a1 / a2) * 0.5;
         }
 
-        public Function<Double, Double> getFunction() {
-            return function;
+        public Function<Double, Double> getParabolaFunction() {
+            return parabolaFunction;
         }
 
         public double getPointOfMin() {
