@@ -11,10 +11,11 @@ public class DoubleComparator implements Comparator<Double> {
 
     @Override
     public int compare(Double lhs, Double rhs) {
-        if (Math.abs(rhs - lhs) <= eps) {
+        final double v = (Math.max(Math.abs(lhs), Math.abs(rhs))) * eps;
+        if (Math.abs(lhs - rhs) <= v) {
             return 0;
         }
-        if (rhs - lhs > eps) {
+        if ((lhs - rhs) > v) {
             return 1;
         }
         return -1;

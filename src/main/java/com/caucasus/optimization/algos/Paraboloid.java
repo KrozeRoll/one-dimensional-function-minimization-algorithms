@@ -20,7 +20,6 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         ArrayList<Function<Double, Double>> functions = new ArrayList<>();
         ArrayList<Double> approximatelyMinimums = new ArrayList<>();
         intervals.add(new Interval(leftBorder, rightBorder));
-        // FIXME
         double x1 = leftBorder;
         double x2 = (leftBorder + rightBorder) * 0.5;
         double x3 = rightBorder;
