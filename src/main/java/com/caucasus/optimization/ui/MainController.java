@@ -64,14 +64,16 @@ public class MainController {
         double left = getCurrentSolution().getIntervals().get(iterationNumber).getLeftBorder();
         double right = getCurrentSolution().getIntervals().get(iterationNumber).getRightBorder();
         double approx = getCurrentSolution().getApproximatelyMinimums().get(iterationNumber);
-        leftLabel.setText(String.format("%.5f", left));
-        rightLabel.setText(String.format("%.5f", right));
-        approxLabel.setText(String.format("%.5f", approx));
+        leftLabel.setText(String.format("%.6f", left));
+        rightLabel.setText(String.format("%.6f", right));
+        approxLabel.setText(String.format("%.6f", approx));
 
         clearChart();
         lineChart.getData().add(functionSeries);
         if (currentMethod.needPlot) {
-            drawParaboloid(getCurrentParaboloidSolution().getParabolas().get(iterationNumber), interval);
+            Function <Double, Double> parabola = getCurrentParaboloidSolution().getParabolas().get(iterationNumber);
+            drawParaboloid(parabola, interval);
+            addPointToChart(approx, parabola.apply(approx), "green");
         } else {
             drawBorderPoints(left, right, approx);
         }
@@ -83,15 +85,20 @@ public class MainController {
     }
 
     private void drawBorderPoints(Double left, Double right, Double approx) {
-        addPointToChart(left, function.apply(left));
-        addPointToChart(right, function.apply(right));
-        addPointToChart(approx, function.apply(approx));
+        addPointToChart(left, function.apply(left), "blue");
+        addPointToChart(right, function.apply(right), "blue");
+        addPointToChart(approx, function.apply(approx), "green");
     }
 
-    private void addPointToChart(final double x, final double y) {
+    private void addPointToChart(final double x, final double y, String color) {
         XYChart.Series<Double, Double> series = new XYChart.Series<>();
         plotPoint(x, y, series);
         lineChart.getData().add(series);
+
+        StringBuilder style = new StringBuilder("-fx-stroke-width: 7;");
+        style.append("-fx-stroke: ").append(color);
+
+        series.nodeProperty().get().setStyle(style.toString());
     }
 
     private XYChart.Series<Double, Double> plotLineSeries(
