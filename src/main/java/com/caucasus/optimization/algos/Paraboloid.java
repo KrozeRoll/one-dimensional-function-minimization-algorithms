@@ -28,6 +28,7 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         approximatelyMinimums.add(parabola.getPointOfMin());
         functions.add(parabola.getFunction());
         while (!validateAccuracy(leftBorder, rightBorder)) {
+            if (compare(x1, x2) < 0);
         }
 
         return null;
