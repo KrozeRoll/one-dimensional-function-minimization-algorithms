@@ -62,7 +62,7 @@
         <Label fx:id="iterationNumberLabel" text = "0" layoutX="200" layoutY="617"/>
 
         <Slider fx:id="iterationSlider" layoutX="250" layoutY="620" prefWidth="300" snapToTicks="true"
-                showTickMarks="true" minorTickCount="16"/>
+                showTickMarks="true" minorTickCount="4" majorTickUnit="5"/>
 
 
 

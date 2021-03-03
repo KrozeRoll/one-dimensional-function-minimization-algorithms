@@ -4,7 +4,6 @@ import com.caucasus.optimization.algos.entities.minfinder.*;
 import com.caucasus.optimization.algos.entities.util.Interval;
 import com.caucasus.optimization.algos.entities.util.ParaboloidSolution;
 import com.caucasus.optimization.algos.entities.util.Solution;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -90,7 +89,7 @@ public class MainController {
     }
 
     private void addPointToChart(final double x, final double y) {
-        XYChart.Series<Double, Double> series = new XYChart.Series<Double, Double>();
+        XYChart.Series<Double, Double> series = new XYChart.Series<>();
         plotPoint(x, y, series);
         lineChart.getData().add(series);
     }
@@ -99,7 +98,7 @@ public class MainController {
             final Function<Double, Double> function, final Interval interval, final int stepCount) {
         double step = (interval.getRightBorder() - interval.getLeftBorder()) / stepCount;
 
-        final XYChart.Series<Double, Double> series = new XYChart.Series<Double, Double>();
+        final XYChart.Series<Double, Double> series = new XYChart.Series<>();
         for (double x = interval.getLeftBorder(); x < interval.getRightBorder(); x += step) {
             plotPoint(x, function.apply(x), series);
         }
@@ -110,7 +109,7 @@ public class MainController {
 
     private void plotPoint(final double x, final double y,
                            final XYChart.Series<Double, Double> series) {
-        series.getData().add(new XYChart.Data<Double, Double>(x, y));
+        series.getData().add(new XYChart.Data<>(x, y));
     }
 
     public void clearChart() {
@@ -126,7 +125,7 @@ public class MainController {
     }
 
     @FXML
-    private void clickCalculate(ActionEvent event) {
+    private void clickCalculate() {
         double eps;
         try {
             eps = Double.parseDouble(epsTextField.getText());
@@ -136,7 +135,6 @@ public class MainController {
         }
         calculateSolutions(eps);
         setupMethod(currentMethod);
-        clearChart();
     }
 
     private Solution getCurrentSolution() {
@@ -167,35 +165,32 @@ public class MainController {
         currentMethod = choosedMethod;
         iterationSlider.setValue(0);
         iterationSlider.setMax(getCurrentSolution().getIntervals().size() - 1);
-        iterationSlider.setMinorTickCount(4);
-        iterationSlider.setMajorTickUnit(5);
         methodName.setText(currentMethod.getLabelString());
+        updateWindow();
     }
 
     @FXML
-    private void clickDichotomy(ActionEvent event) {
+    private void clickDichotomy() {
         setupMethod(Methods.DICHOTOMY);
     }
 
     @FXML
-    private void clickGoldenSection(ActionEvent event) {
+    private void clickGoldenSection() {
         setupMethod(Methods.GOLDEN_SECTION);
     }
 
     @FXML
-    private void clickFibonacci(ActionEvent event) {
+    private void clickFibonacci() {
         setupMethod(Methods.FIBONACCI);
     }
 
     @FXML
-    private void clickParaboloid(ActionEvent event) {
+    private void clickParaboloid() {
         setupMethod(Methods.PARABOLOID);
     }
 
     @FXML
-    private void clickBrent(ActionEvent event) {
+    private void clickBrent() {
         setupMethod(Methods.BRENT);
     }
-
-
 }
