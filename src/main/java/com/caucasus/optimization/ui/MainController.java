@@ -36,7 +36,7 @@ public class MainController {
     final Function<Double, Double> function = x -> Math.exp(3.0D * x) + 5 * Math.exp(-2.0D * x);
     final Interval interval = new Interval(0, 1);
     final Double DEFAULT_EPS = 0.00001;
-
+    final private XYChart.Series<Double, Double> functionSeries = plotLineSeries(function, interval, 100);
 
     private Solution dichotomySolution, goldenSectionSolution, fibonacciSolution, brentSolution;
     private ParaboloidSolution paraboloidSolution;
@@ -44,7 +44,7 @@ public class MainController {
     private Methods currentMethod = Methods.DICHOTOMY;
 
     private int iterationNumber;
-    private XYChart.Series<Double, Double> series;
+
 
     public void initialize() {
         iterationSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -54,7 +54,8 @@ public class MainController {
 
         calculateSolutions(DEFAULT_EPS);
         setupMethod(currentMethod);
-        plotLineSeries(function, interval, 40);
+        lineChart.setCreateSymbols(false);
+        lineChart.setLegendVisible(false);
         updateWindow();
     }
 
@@ -67,8 +68,8 @@ public class MainController {
         rightLabel.setText(String.format("%.5f", right));
         approxLabel.setText(String.format("%.5f", approx));
 
-        //clearChart();
-        //lineChart.getData().add(series);
+        clearChart();
+        lineChart.getData().add(functionSeries);
         if (currentMethod.needPlot) {
             //TODO
         } else {
@@ -77,9 +78,18 @@ public class MainController {
     }
 
     private void drawBorderPoints(Double left, Double right, Double approx) {
+        addPointToChart(left, function.apply(left));
+        addPointToChart(right, function.apply(right));
+        addPointToChart(approx, function.apply(approx));
     }
 
-    private void plotLineSeries(
+    private void addPointToChart(final double x, final double y) {
+        XYChart.Series<Double, Double> series = new XYChart.Series<Double, Double>();
+        plotPoint(x, y, series);
+        lineChart.getData().add(series);
+    }
+
+    private XYChart.Series<Double, Double> plotLineSeries(
             final Function<Double, Double> function, final Interval interval, final int stepCount) {
         double step = (interval.getRightBorder() - interval.getLeftBorder()) / stepCount;
 
@@ -89,11 +99,7 @@ public class MainController {
         }
         plotPoint(interval.getRightBorder(), function.apply(interval.getRightBorder()), series);
 
-        lineChart.getData().add(series);
-        lineChart.setCreateSymbols(false);
-        lineChart.setLegendVisible(false);
-
-
+        return series;
     }
 
     private void plotPoint(final double x, final double y,
@@ -124,6 +130,7 @@ public class MainController {
         }
         calculateSolutions(eps);
         setupMethod(currentMethod);
+        clearChart();
     }
 
     private Solution getCurrentSolution() {
@@ -143,7 +150,6 @@ public class MainController {
     private void setupMethod(Methods choosedMethod) {
         currentMethod = choosedMethod;
         iterationSlider.setValue(0);
-        System.out.println(getCurrentSolution().getIntervals().size());
         iterationSlider.setMax(getCurrentSolution().getIntervals().size() - 1);
         iterationSlider.setMinorTickCount(4);
         iterationSlider.setMajorTickUnit(5);

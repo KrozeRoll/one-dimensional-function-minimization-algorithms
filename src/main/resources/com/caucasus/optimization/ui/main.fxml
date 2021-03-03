@@ -40,7 +40,7 @@
 
         <Button text = "Calculate" onAction="#clickCalculate" AnchorPane.leftAnchor="500" prefHeight="50"/>
 
-        <LineChart fx:id="lineChart" layoutX="140" layoutY="50.0" prefHeight="500" prefWidth="500">
+        <LineChart fx:id="lineChart" layoutX="140" layoutY="50.0" prefHeight="500" prefWidth="500" animated="false">
             <xAxis>
                 <NumberAxis fx:id="xAxis" upperBound="1"/>
             </xAxis>
@@ -61,7 +61,8 @@
         <Label text="iteration" layoutX="150" layoutY="617"/>
         <Label fx:id="iterationNumberLabel" text = "0" layoutX="200" layoutY="617"/>
 
-        <Slider fx:id="iterationSlider" layoutX="250" layoutY="620" prefWidth="300" snapToTicks="true" showTickMarks="true" minorTickCount="16"/>
+        <Slider fx:id="iterationSlider" layoutX="250" layoutY="620" prefWidth="300" snapToTicks="true"
+                showTickMarks="true" minorTickCount="16"/>
 
 
 
