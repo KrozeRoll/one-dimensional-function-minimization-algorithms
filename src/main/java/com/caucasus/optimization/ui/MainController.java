@@ -140,9 +140,10 @@ public class MainController {
     private void setupMethod(Methods choosedMethod) {
         currentMethod = choosedMethod;
         iterationSlider.setValue(0);
+        System.out.println(getCurrentSolution().getIntervals().size());
         iterationSlider.setMax(getCurrentSolution().getIntervals().size() - 1);
-        iterationSlider.setMinorTickCount(getCurrentSolution().getIntervals().size() - 1);
-        iterationSlider.setMajorTickUnit(getCurrentSolution().getIntervals().size() - 1);
+        iterationSlider.setMinorTickCount(4);
+        iterationSlider.setMajorTickUnit(5);
         methodName.setText(currentMethod.getLabelString());
     }
 
