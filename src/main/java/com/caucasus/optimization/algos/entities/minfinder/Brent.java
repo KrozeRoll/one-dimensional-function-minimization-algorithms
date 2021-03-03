@@ -33,7 +33,7 @@ public class Brent extends AbstractIntervalMinFinder {
         while (compare(Math.abs(rightBorder - leftBorder), getEps()) > 0) {
             g = e;
             e = d;
-            tol = e * Math.abs(x) + getEps() / 10;
+            tol = getEps() * Math.abs(x) + getEps() / 10;
             if (compare(Math.abs(x - (leftBorder + rightBorder) * 0.5) + (rightBorder - leftBorder) * 0.5, 2 * tol) <= 0) {
                 break;
             }
