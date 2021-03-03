@@ -42,10 +42,10 @@
 
         <LineChart fx:id="lineChart" layoutX="140" layoutY="50.0" prefHeight="500" prefWidth="500" animated="false">
             <xAxis>
-                <NumberAxis fx:id="xAxis" upperBound="1"/>
+                <NumberAxis upperBound="1"/>
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="yAxis" upperBound="30"/>
+                <NumberAxis upperBound="30"/>
             </yAxis>
         </LineChart>
 
@@ -70,19 +70,19 @@
 
 
     <HBox prefHeight="75.0" prefWidth="800" StackPane.alignment="BOTTOM_CENTER" maxHeight="75.0">
-        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Dichotomy method"
-                HBox.hgrow="ALWAYS" onAction="#clickDichotomy"/>
+        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false"
+                HBox.hgrow="ALWAYS" onAction="#clickDichotomy" fx:id="dichotomyButton" textAlignment="CENTER"/>
 
-        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Golden section method"
-                HBox.hgrow="ALWAYS" onAction="#clickGoldenSection"/>
+        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false"
+                HBox.hgrow="ALWAYS" onAction="#clickGoldenSection" fx:id="goldenSectionButton" textAlignment="CENTER"/>
 
-        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Fibonacci method"
-                HBox.hgrow="ALWAYS" onAction="#clickFibonacci"/>
+        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false"
+                HBox.hgrow="ALWAYS" onAction="#clickFibonacci" fx:id="fibonacciButton" textAlignment="CENTER"/>
 
-        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Parabola method"
-                HBox.hgrow="ALWAYS" onAction="#clickParaboloid"/>
+        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false"
+                HBox.hgrow="ALWAYS" onAction="#clickParaboloid" fx:id="paraboloidButton" textAlignment="CENTER"/>
 
-        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false" text="Brent method"
-                HBox.hgrow="ALWAYS" onAction="#clickBrent"/>
+        <Button maxHeight="$MAX_VALUE" maxWidth="$MAX_VALUE" mnemonicParsing="false"
+                HBox.hgrow="ALWAYS" onAction="#clickBrent" fx:id="brentButton" textAlignment="CENTER"/>
     </HBox>
 </StackPane>

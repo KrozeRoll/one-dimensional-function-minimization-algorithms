@@ -7,6 +7,7 @@ import com.caucasus.optimization.algos.entities.util.Solution;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -24,19 +25,18 @@ public class MainController {
     @FXML
     private Label iterationNumberLabel;
     @FXML
-    private Label leftLabel;
-    @FXML
-    private Label approxLabel;
-    @FXML
-    private Label rightLabel;
+    private Label leftLabel, approxLabel, rightLabel;
     @FXML
     private LineChart<Double, Double> lineChart;
+    @FXML
+    private Button dichotomyButton, goldenSectionButton, fibonacciButton, paraboloidButton, brentButton;
 
     final Function<Double, Double> function = x -> Math.exp(3.0D * x) + 5 * Math.exp(-2.0D * x);
     final Interval interval = new Interval(0, 1);
     final Double DEFAULT_EPS = 0.00001;
     final int PLOT_STEP_COUNT = 100;
-    final private XYChart.Series<Double, Double> functionSeries = plotLineSeries(function, interval, PLOT_STEP_COUNT);
+    final String NUMBER_FORMAT = "%.7f";
+    final private XYChart.Series<Double, Double> functionSeries = plotLineSeries(function, interval);
 
     private Solution dichotomySolution, goldenSectionSolution, fibonacciSolution, brentSolution;
     private ParaboloidSolution paraboloidSolution;
@@ -64,9 +64,9 @@ public class MainController {
         double left = getCurrentSolution().getIntervals().get(iterationNumber).getLeftBorder();
         double right = getCurrentSolution().getIntervals().get(iterationNumber).getRightBorder();
         double approx = getCurrentSolution().getApproximatelyMinimums().get(iterationNumber);
-        leftLabel.setText(String.format("%.6f", left));
-        rightLabel.setText(String.format("%.6f", right));
-        approxLabel.setText(String.format("%.6f", approx));
+        leftLabel.setText(String.format(NUMBER_FORMAT, left));
+        rightLabel.setText(String.format(NUMBER_FORMAT, right));
+        approxLabel.setText(String.format(NUMBER_FORMAT, approx));
 
         clearChart();
         lineChart.getData().add(functionSeries);
@@ -80,7 +80,7 @@ public class MainController {
     }
 
     private void drawParaboloid(final Function<Double, Double> parabola, Interval interval) {
-        XYChart.Series<Double, Double> series = plotLineSeries(parabola, interval, PLOT_STEP_COUNT);
+        XYChart.Series<Double, Double> series = plotLineSeries(parabola, interval);
         lineChart.getData().add(series);
     }
 
@@ -95,15 +95,12 @@ public class MainController {
         plotPoint(x, y, series);
         lineChart.getData().add(series);
 
-        StringBuilder style = new StringBuilder("-fx-stroke-width: 7;");
-        style.append("-fx-stroke: ").append(color);
-
-        series.nodeProperty().get().setStyle(style.toString());
+        series.nodeProperty().get().setStyle("-fx-stroke-width: 7; -fx-stroke: " + color);
     }
 
     private XYChart.Series<Double, Double> plotLineSeries(
-            final Function<Double, Double> function, final Interval interval, final int stepCount) {
-        double step = (interval.getRightBorder() - interval.getLeftBorder()) / stepCount;
+            final Function<Double, Double> function, final Interval interval) {
+        double step = (interval.getRightBorder() - interval.getLeftBorder()) / PLOT_STEP_COUNT;
 
         final XYChart.Series<Double, Double> series = new XYChart.Series<>();
         for (double x = interval.getLeftBorder(); x < interval.getRightBorder(); x += step) {
@@ -129,7 +126,23 @@ public class MainController {
         fibonacciSolution = new Fibonacci(function, interval, eps).getSolution();
         brentSolution = new Brent(function, interval, eps).getSolution();
         paraboloidSolution = new Paraboloid(function, interval, eps).getParaboloidSolution();
+
+        updateButtonsText();
     }
+
+    private void updateButtonsText() {
+        updateButtonText(dichotomyButton, Methods.DICHOTOMY);
+        updateButtonText(goldenSectionButton, Methods.GOLDEN_SECTION);
+        updateButtonText(fibonacciButton, Methods.FIBONACCI);
+        updateButtonText(paraboloidButton, Methods.PARABOLOID);
+        updateButtonText(dichotomyButton, Methods.DICHOTOMY);
+        updateButtonText(brentButton, Methods.BRENT);
+    }
+
+    private void updateButtonText(Button button, Methods method) {
+        button.setText(method.getLabelString() + "\n" + String.format(NUMBER_FORMAT, getMethodSolution(method).getEndPoint()));
+    }
+
 
     @FXML
     private void clickCalculate() {
@@ -144,9 +157,9 @@ public class MainController {
         setupMethod(currentMethod);
     }
 
-    private Solution getCurrentSolution() {
+    private Solution getMethodSolution(Methods method) {
         Solution solution;
-        switch (currentMethod) {
+        switch (method) {
             case DICHOTOMY: solution = dichotomySolution; break;
             case GOLDEN_SECTION: solution = goldenSectionSolution; break;
             case FIBONACCI: solution = fibonacciSolution; break;
@@ -156,6 +169,10 @@ public class MainController {
                 throw new IllegalStateException("Unexpected value: " + currentMethod);
         }
         return solution;
+    }
+
+    private Solution getCurrentSolution() {
+        return getMethodSolution(currentMethod);
     }
 
     private ParaboloidSolution getCurrentParaboloidSolution() {
