@@ -7,12 +7,14 @@ import com.caucasus.optimization.algos.entities.util.Solution;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
 
 /**
@@ -38,7 +40,7 @@ public class SectionTester {
         final String folderName = "." + File.separator + "output" + File.separator + "tables" + File.separator;
         for (SolutionWithName solution : calculateSolutions(function, borders, epsilon)) {
             try {
-                outputFile = Paths.get(folderName + solution.name + ".dat");
+                outputFile = Paths.get(folderName + solution.name + ".tex");
             } catch (final InvalidPathException e) {
                 System.err.println("Invalid path: " + e.getMessage());
                 return;
@@ -50,7 +52,8 @@ public class SectionTester {
                     System.err.println("Cannot create parent directories for output file: " + e.getMessage());
                 }
             }
-            try (final BufferedWriter writer = Files.newBufferedWriter(outputFile)) {
+            try (final BufferedWriter writer = Files.newBufferedWriter(outputFile, Charset.forName("UTF-8"))) {
+                Locale.setDefault(Locale.US);
                 List<Interval> intervals = solution.solution.getIntervals();
                 List<Double> approxMinPoints = solution.solution.getApproximatelyMinimums();
                 try {
@@ -58,9 +61,8 @@ public class SectionTester {
                         //section, len, x, f(x)
                         final Interval curInterval = intervals.get(i);
                         final Double point = approxMinPoints.get(i);
-                        writer.write(String.format("[%.9f; %.9f] & %.9f & %.9f & %.9f", curInterval.getLeftBorder(), curInterval.getRightBorder(),
+                        writer.write(String.format("%d & [%.9f; %.9f] & %.9f & %.10f & %.10f \\\\%n%n", i, curInterval.getLeftBorder(), curInterval.getRightBorder(),
                                 curInterval.getRightBorder() - curInterval.getLeftBorder(), point, function.apply(point)));
-                        writer.newLine();
                     }
                 } catch (final IOException e) {
                     System.err.println("Error printing to file " + outputFile + ": " + e.getMessage());
