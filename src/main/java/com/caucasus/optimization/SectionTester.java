@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * @author nkorzh
+ * Single-launch class used to get the sections size during the work of minFinders.
+ */
 public class SectionTester {
-
     private static class SolutionWithName {
         String name;
         Solution solution;
@@ -26,18 +29,26 @@ public class SectionTester {
             this.solution = solution;
         }
     }
+
     public static void main(String[] args) {
         final Interval borders = new Interval(0, 1);
         final Double epsilon = 1e-9;
         final Function<Double, Double> function = x -> Math.exp(3.0D * x) + 5 * Math.exp(-2.0D * x);
         Path outputFile;
-        final String folderName = "tables" + File.separator;
+        final String folderName = "." + File.separator + "output" + File.separator + "tables" + File.separator;
         for (SolutionWithName solution : calculateSolutions(function, borders, epsilon)) {
             try {
                 outputFile = Paths.get(folderName + solution.name + ".dat");
             } catch (final InvalidPathException e) {
                 System.err.println("Invalid path: " + e.getMessage());
                 return;
+            }
+            if (outputFile.getParent() != null) {
+                try {
+                    Files.createDirectories(outputFile.getParent());
+                } catch (final IOException e) {
+                    System.err.println("Cannot create parent directories for output file: " + e.getMessage());
+                }
             }
             try (final BufferedWriter writer = Files.newBufferedWriter(outputFile)) {
                 List<Interval> intervals = solution.solution.getIntervals();
