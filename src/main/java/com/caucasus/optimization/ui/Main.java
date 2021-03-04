@@ -25,7 +25,7 @@ public class Main extends Application {
         }
         Scene scene = new Scene(root, 800, 800);
         primaryStage.setScene(scene);
-
+        primaryStage.setTitle("Minimization methods");
         primaryStage.show();
         primaryStage.setMinWidth(primaryStage.getWidth());
         primaryStage.setMinHeight(primaryStage.getHeight());

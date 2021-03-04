@@ -7,10 +7,7 @@ import com.caucasus.optimization.algos.entities.util.Solution;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.function.Function;
 
@@ -29,7 +26,7 @@ public class MainController {
     @FXML
     private LineChart<Double, Double> lineChart;
     @FXML
-    private Button dichotomyButton, goldenSectionButton, fibonacciButton, paraboloidButton, brentButton;
+    private ToggleButton dichotomyButton, goldenSectionButton, fibonacciButton, paraboloidButton, brentButton;
 
     final Function<Double, Double> function = x -> Math.exp(3.0D * x) + 5 * Math.exp(-2.0D * x);
     final Interval interval = new Interval(0, 1);
@@ -52,12 +49,23 @@ public class MainController {
             updateWindow();
         });
 
+        makeToggleGroup();
         calculateSolutions(DEFAULT_EPS);
-        setupMethod(currentMethod);
+        dichotomyButton.fire();
         lineChart.setCreateSymbols(false);
         lineChart.setLegendVisible(false);
         updateWindow();
     }
+
+    private void makeToggleGroup() {
+        ToggleGroup group = new ToggleGroup();
+        dichotomyButton.setToggleGroup(group);
+        goldenSectionButton.setToggleGroup(group);
+        fibonacciButton.setToggleGroup(group);
+        paraboloidButton.setToggleGroup(group);
+        brentButton.setToggleGroup(group);
+    }
+
 
     private void updateWindow() {
         iterationNumberLabel.setText(Integer.toString(iterationNumber));
@@ -131,15 +139,15 @@ public class MainController {
     }
 
     private void updateButtonsText() {
-        updateButtonText(dichotomyButton, Methods.DICHOTOMY);
-        updateButtonText(goldenSectionButton, Methods.GOLDEN_SECTION);
-        updateButtonText(fibonacciButton, Methods.FIBONACCI);
-        updateButtonText(paraboloidButton, Methods.PARABOLOID);
-        updateButtonText(dichotomyButton, Methods.DICHOTOMY);
-        updateButtonText(brentButton, Methods.BRENT);
+        updateTougleButtonText(dichotomyButton, Methods.DICHOTOMY);
+        updateTougleButtonText(goldenSectionButton, Methods.GOLDEN_SECTION);
+        updateTougleButtonText(fibonacciButton, Methods.FIBONACCI);
+        updateTougleButtonText(paraboloidButton, Methods.PARABOLOID);
+        updateTougleButtonText(dichotomyButton, Methods.DICHOTOMY);
+        updateTougleButtonText(brentButton, Methods.BRENT);
     }
 
-    private void updateButtonText(Button button, Methods method) {
+    private void updateTougleButtonText(ToggleButton button, Methods method) {
         button.setText(method.getLabelString() + "\n" + String.format(NUMBER_FORMAT, getMethodSolution(method).getEndPoint()));
     }
 
