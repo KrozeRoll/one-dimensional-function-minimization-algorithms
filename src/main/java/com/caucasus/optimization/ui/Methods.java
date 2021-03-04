@@ -7,7 +7,7 @@ public enum Methods {
     PARABOLOID("Paraboloid method", true),
     BRENT("Combined Brent method", false);
 
-    private String labelString;
+    private final String labelString;
     boolean needPlot;
 
     Methods(String labelString, boolean needPlot) {

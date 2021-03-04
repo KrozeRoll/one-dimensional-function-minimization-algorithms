@@ -6,11 +6,31 @@ import com.caucasus.optimization.algos.entities.util.ParaboloidSolution;
 import java.util.ArrayList;
 import java.util.function.Function;
 
+/**
+ * A ParaboloidMinFinder implementation based on Golden Section minimization method
+ *
+ * @see com.caucasus.optimization.algos.interfaces.ParaboloidMinFinder
+ */
 public class Paraboloid extends AbstractParaboloidMinFinder {
+    /**
+     * Constructs new method immutable object
+     *
+     * @param function    function on which to search
+     * @param leftBorder  left border of domain of function definition
+     * @param rightBorder right border of domain of function definition
+     * @param eps         epsilon which is used to calculate
+     */
     public Paraboloid(Function<Double, Double> function, double leftBorder, double rightBorder, double eps) {
         super(function, leftBorder, rightBorder, eps);
     }
 
+    /**
+     * Constructs new method immutable object
+     *
+     * @param function function on which to search
+     * @param domain   domain of function definition
+     * @param eps      epsilon which is used to calculate
+     */
     public Paraboloid(Function<Double, Double> function, Interval domain, double eps) {
         super(function, domain, eps);
     }
@@ -31,7 +51,7 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         functions.add(parabola.getParabolaFunction());
         while (!validateAccuracy(leftBorder, rightBorder)) {
             if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
-            && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) >= 0) {
+                    && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) >= 0) {
                 leftBorder = parabola.getPointOfMin();
                 rightBorder = x3;
                 x1 = parabola.getPointOfMin();

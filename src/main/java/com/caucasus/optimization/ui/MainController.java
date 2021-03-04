@@ -79,7 +79,7 @@ public class MainController {
         clearChart();
         lineChart.getData().add(functionSeries);
         if (currentMethod.needPlot) {
-            Function <Double, Double> parabola = getCurrentParaboloidSolution().getParabolas().get(iterationNumber);
+            Function<Double, Double> parabola = getCurrentParaboloidSolution().getParabolas().get(iterationNumber);
             drawParaboloid(parabola, interval);
             addPointToChart(approx, parabola.apply(approx), "green");
         } else {
@@ -168,11 +168,21 @@ public class MainController {
     private Solution getMethodSolution(Methods method) {
         Solution solution;
         switch (method) {
-            case DICHOTOMY: solution = dichotomySolution; break;
-            case GOLDEN_SECTION: solution = goldenSectionSolution; break;
-            case FIBONACCI: solution = fibonacciSolution; break;
-            case PARABOLOID: solution = paraboloidSolution; break;
-            case BRENT: solution = brentSolution; break;
+            case DICHOTOMY:
+                solution = dichotomySolution;
+                break;
+            case GOLDEN_SECTION:
+                solution = goldenSectionSolution;
+                break;
+            case FIBONACCI:
+                solution = fibonacciSolution;
+                break;
+            case PARABOLOID:
+                solution = paraboloidSolution;
+                break;
+            case BRENT:
+                solution = brentSolution;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + currentMethod);
         }

@@ -7,12 +7,24 @@ import com.caucasus.optimization.algos.interfaces.MinFinder;
 import java.util.Comparator;
 import java.util.function.Function;
 
+/**
+ * This class provides a skeletal implementation of the MinFinder interface to minimize the effort required to implement this interface.
+ *
+ * @see MinFinder
+ */
 public abstract class AbstractMinFinder implements MinFinder {
     private final Function<Double, Double> function;
     private final Interval domain;
     private final double eps;
     private final Comparator<Double> comparator;
 
+    /**
+     * Sole constructor
+     *
+     * @param function function on which to search
+     * @param domain   domain of function definition
+     * @param eps      epsilon which is used to calculate
+     */
     public AbstractMinFinder(Function<Double, Double> function, Interval domain, double eps) {
         this.function = function;
         this.domain = domain;
@@ -20,6 +32,13 @@ public abstract class AbstractMinFinder implements MinFinder {
         this.comparator = new DoubleComparator(eps);
     }
 
+    /**
+     * method provides comparing of doubles in MinFinder
+     *
+     * @param lhs left hand side operand
+     * @param rhs right hand side operand
+     * @return -1 if lhs < rhs, 0 if lhs == rhs, 1 if lhs > rhs
+     */
     protected int compare(Double lhs, Double rhs) {
         return comparator.compare(lhs, rhs);
     }

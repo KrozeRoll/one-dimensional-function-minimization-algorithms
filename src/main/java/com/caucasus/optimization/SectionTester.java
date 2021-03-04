@@ -72,8 +72,8 @@ public class SectionTester {
     }
 
     private static List<SolutionWithName> calculateSolutions(Function<Double, Double> function,
-                                                           Interval interval,
-                                                           Double eps) {
+                                                             Interval interval,
+                                                             Double eps) {
         List<SolutionWithName> list = new ArrayList<>();
         list.add(new SolutionWithName("dichotomy", new Dichotomy(function, interval, eps).getSolution()));
         list.add(new SolutionWithName("goldensection", new GoldenSection(function, interval, eps).getSolution()));

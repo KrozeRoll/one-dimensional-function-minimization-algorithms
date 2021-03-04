@@ -6,13 +6,33 @@ import com.caucasus.optimization.algos.entities.util.Solution;
 import java.util.ArrayList;
 import java.util.function.Function;
 
+/**
+ * A IntervalMinFinder implementation based on Golden Section minimization method
+ *
+ * @see com.caucasus.optimization.algos.interfaces.IntervalMinFinder
+ */
 public class GoldenSection extends AbstractIntervalMinFinder {
     private static final double TAU = (Math.sqrt(5) - 1) * 0.5;
 
+    /**
+     * Constructs new method immutable object
+     *
+     * @param function    function on which to search
+     * @param leftBorder  left border of domain of function definition
+     * @param rightBorder right border of domain of function definition
+     * @param eps         epsilon which is used to calculate
+     */
     public GoldenSection(Function<Double, Double> function, double leftBorder, double rightBorder, double eps) {
         super(function, leftBorder, rightBorder, eps);
     }
 
+    /**
+     * Constructs new method immutable object
+     *
+     * @param function function on which to search
+     * @param domain   domain of function definition
+     * @param eps      epsilon which is used to calculate
+     */
     public GoldenSection(Function<Double, Double> function, Interval domain, double eps) {
         super(function, domain, eps);
     }

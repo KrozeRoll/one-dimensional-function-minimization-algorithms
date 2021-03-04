@@ -2,17 +2,14 @@ package com.caucasus.optimization;
 
 import com.caucasus.optimization.algos.entities.minfinder.*;
 import com.caucasus.optimization.algos.entities.util.Interval;
-import com.caucasus.optimization.algos.entities.util.Solution;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.lang.module.FindException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.function.DoubleToIntFunction;
 import java.util.function.Function;
 
@@ -33,17 +30,17 @@ public class EpsDependencyChart {
         buildDependencyChart(eps -> getStepsAmount(new Dichotomy(function, borders, eps)),
                 Dichotomy.class.getSimpleName());
         buildDependencyChart(eps -> getStepsAmount(new Fibonacci(function, borders, eps)),
-                        Fibonacci.class.getSimpleName());
+                Fibonacci.class.getSimpleName());
         buildDependencyChart(eps -> getStepsAmount(new GoldenSection(function, borders, eps)),
-                        GoldenSection.class.getSimpleName());
+                GoldenSection.class.getSimpleName());
         buildDependencyChart(eps -> getStepsAmount(new Brent(function, borders, eps)),
-                        Brent.class.getSimpleName());
+                Brent.class.getSimpleName());
         buildDependencyChart(eps ->
                         new Paraboloid(function, borders, eps)
                                 .getParaboloidSolution()
                                 .getApproximatelyMinimums()
                                 .size(),
-                        Paraboloid.class.getSimpleName());
+                Paraboloid.class.getSimpleName());
     }
 
     private static void buildDependencyChart(final DoubleToIntFunction getStepsAmount,
@@ -71,7 +68,7 @@ public class EpsDependencyChart {
             System.err.println("Error creating writer for file " + outputFile + ": " + e.getMessage());
         }
     }
-    
+
     private static int getStepsAmount(AbstractIntervalMinFinder finder) {
         return finder.getSolution().getApproximatelyMinimums().size();
     }
