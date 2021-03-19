@@ -1,7 +1,9 @@
 package com.caucasus.optimization.algos.entities.minfinder;
 
 import com.caucasus.optimization.algos.entities.util.Interval;
+import com.caucasus.optimization.algos.entities.util.ParaboloidSolution;
 import com.caucasus.optimization.algos.entities.util.Solution;
+import com.caucasus.optimization.algos.interfaces.ParaboloidMinFinder;
 
 import java.util.ArrayList;
 import java.util.function.Function;
@@ -11,7 +13,7 @@ import java.util.function.Function;
  *
  * @see com.caucasus.optimization.algos.interfaces.IntervalMinFinder
  */
-public class Brent extends AbstractIntervalMinFinder {
+public class Brent extends AbstractParaboloidMinFinder {
     private static final double K = (3 - Math.sqrt(5)) / 2;
 
     /**
@@ -38,7 +40,7 @@ public class Brent extends AbstractIntervalMinFinder {
     }
 
     @Override
-    public Solution calculateSolution() {
+    public ParaboloidSolution calculateParaboloidSolution() {
         double leftBorder, rightBorder, x, w, v, fx, fw, fv, d, e, g, u, fu;
         leftBorder = getLeftBorder();
         rightBorder = getRightBorder();
@@ -110,7 +112,8 @@ public class Brent extends AbstractIntervalMinFinder {
             approximatelyMinimums.add(x);
         }
 
-        return new Solution(intervals, approximatelyMinimums);
+//        return new Solution(intervals, approximatelyMinimums);
+        return null;
     }
 
     private boolean notEqual(double lhs, double rhs) {

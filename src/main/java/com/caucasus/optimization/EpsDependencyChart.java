@@ -33,8 +33,8 @@ public class EpsDependencyChart {
                 Fibonacci.class.getSimpleName());
         buildDependencyChart(eps -> getStepsAmount(new GoldenSection(function, borders, eps)),
                 GoldenSection.class.getSimpleName());
-        buildDependencyChart(eps -> getStepsAmount(new Brent(function, borders, eps)),
-                Brent.class.getSimpleName());
+//        buildDependencyChart(eps -> getStepsAmount(new Brent(function, borders, eps)),
+//                Brent.class.getSimpleName());
         buildDependencyChart(eps ->
                         new Paraboloid(function, borders, eps)
                                 .getParaboloidSolution()

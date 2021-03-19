@@ -80,7 +80,7 @@ public class SectionTester {
         list.add(new SolutionWithName("dichotomy", new Dichotomy(function, interval, eps).getSolution()));
         list.add(new SolutionWithName("goldensection", new GoldenSection(function, interval, eps).getSolution()));
         list.add(new SolutionWithName("fibonacci", new Fibonacci(function, interval, eps).getSolution()));
-        list.add(new SolutionWithName("brent", new Brent(function, interval, eps).getSolution()));
+//        list.add(new SolutionWithName("brent", new Brent(function, interval, eps).getSolution()));
         list.add(new SolutionWithName("parabola", new Paraboloid(function, interval, eps).getParaboloidSolution()));
         return list;
     }
