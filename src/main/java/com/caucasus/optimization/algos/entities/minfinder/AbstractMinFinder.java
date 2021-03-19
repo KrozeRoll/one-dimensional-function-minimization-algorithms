@@ -17,6 +17,7 @@ public abstract class AbstractMinFinder implements MinFinder {
     private final Interval domain;
     private final double eps;
     private final Comparator<Double> comparator;
+    private int counter;
 
     /**
      * Sole constructor
@@ -30,6 +31,7 @@ public abstract class AbstractMinFinder implements MinFinder {
         this.domain = domain;
         this.eps = eps;
         this.comparator = new DoubleComparator(eps);
+        this.counter = 0;
     }
 
     /**
@@ -62,4 +64,16 @@ public abstract class AbstractMinFinder implements MinFinder {
     public double getEps() {
         return eps;
     }
+
+    @Override
+    public double evaluateFunction(double x) {
+        counter++;
+        return function.apply(x);
+    }
+
+    @Override
+    public int getCountOfEvaluations() {
+        return counter;
+    }
+
 }

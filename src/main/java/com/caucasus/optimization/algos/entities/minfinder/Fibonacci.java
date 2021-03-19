@@ -47,21 +47,28 @@ public class Fibonacci extends AbstractIntervalMinFinder {
         final int numberOfIterations = FibonacciGenerator.findIndexOfGreater((long) ((rightBorder - leftBorder) / getEps()));
         double x1 = leftBorder + calcRatioOfNthFibonacci(numberOfIterations, numberOfIterations + 2) * (rightBorder - leftBorder);
         double x2 = leftBorder + calcRatioOfNthFibonacci(numberOfIterations + 1, numberOfIterations + 2) * (rightBorder - leftBorder);
+        double f1 = getFunction().apply(x1);
+        double f2 = getFunction().apply(x2);
         for (int i = 0; i < numberOfIterations - 2; i++) {
-            if (compare(getFunction().apply(x1), getFunction().apply(x2)) <= 0) {
+            if (compare(f1, f2) <= 0) {
                 rightBorder = x2;
                 x2 = x1;
+                f2 = f1;
                 x1 = leftBorder + calcRatioOfNthFibonacci(numberOfIterations - i - 3, numberOfIterations - i - 1) * (rightBorder - leftBorder);
+                f1 = getFunction().apply(x1);
             } else {
                 leftBorder = x1;
                 x1 = x2;
+                f1 = f2;
                 x2 = leftBorder + calcRatioOfNthFibonacci(numberOfIterations - i - 2, numberOfIterations - i - 1) * (rightBorder - leftBorder);
+                f2 = getFunction().apply(x2);
             }
             intervals.add(new Interval(leftBorder, rightBorder));
             approximatelyMinimums.add((leftBorder + rightBorder) * 0.5);
         }
         x2 = x1 + getEps();
-        if (compare(getFunction().apply(x1), getFunction().apply(x2)) == 0) {
+        f2 = getFunction().apply(x2);
+        if (compare(f1, f2) == 0) {
             leftBorder = x1;
         } else {
             rightBorder = x2;

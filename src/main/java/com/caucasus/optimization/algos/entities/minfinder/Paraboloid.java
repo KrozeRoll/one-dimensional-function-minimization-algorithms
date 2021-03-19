@@ -46,35 +46,45 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         double x1 = leftBorder;
         double x2 = (leftBorder + rightBorder) * 0.5;
         double x3 = rightBorder;
+        double f1 = getFunction().apply(x1);
+        double f2 = getFunction().apply(x2);
+        double f3 = getFunction().apply(x3);
         Parabola parabola = new Parabola(x1, x2, x3);
         approximatelyMinimums.add(parabola.getPointOfMin());
         functions.add(parabola.getParabolaFunction());
         while (!validateAccuracy(leftBorder, rightBorder)) {
+            double fm = getFunction().apply(parabola.getPointOfMin());
             if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
-                    && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) >= 0) {
+                    && compare(fm, f2) >= 0) {
                 leftBorder = parabola.getPointOfMin();
                 rightBorder = x3;
                 x1 = parabola.getPointOfMin();
+                f1 = fm;
             } else if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
-                    && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) < 0) {
+                    && compare(fm, f2) < 0) {
                 leftBorder = x1;
                 rightBorder = x2;
                 x3 = x2;
+                f3 = f2;
                 x2 = parabola.getPointOfMin();
+                f2 = fm;
             } else if (compare(x2, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x3) < 0
-                    && compare(getFunction().apply(parabola.getPointOfMin()), getFunction().apply(x2)) <= 0) {
+                    && compare(fm, f2) <= 0) {
                 leftBorder = x2;
                 rightBorder = x3;
                 x1 = x2;
+                f1 = f2;
                 x2 = parabola.getPointOfMin();
+                f2 = fm;
             } else {
                 leftBorder = x1;
                 rightBorder = parabola.getPointOfMin();
                 x3 = parabola.getPointOfMin();
+                f3 = fm;
             }
             if (compare(rightBorder - leftBorder, getEps()) >= 0) {
                 intervals.add(new Interval(leftBorder, rightBorder));
-                parabola = new Parabola(x1, x2, x3);
+                parabola = new Parabola(x1, x2, x3, f1, f2, f3);
                 approximatelyMinimums.add(parabola.getPointOfMin());
                 functions.add(parabola.getParabolaFunction());
             }

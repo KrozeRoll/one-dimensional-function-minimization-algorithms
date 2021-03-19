@@ -26,4 +26,17 @@ public interface MinFinder {
      */
     double getEps();
 
+    /**
+     *
+     * @param x argument of function
+     * @return result of function evaluation
+     */
+    double evaluateFunction(double x);
+
+    /**
+     *
+     * @return count of evaluations of inner function
+     */
+    int getCountOfEvaluations();
+
 }
