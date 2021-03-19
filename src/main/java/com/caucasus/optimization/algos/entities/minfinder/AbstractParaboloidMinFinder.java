@@ -59,7 +59,7 @@ abstract public class AbstractParaboloidMinFinder extends AbstractMinFinder impl
         final double f2;
         final double f3;
         public Parabola(double x1, double x2, double x3) {
-            this(x1, x2, x3, getFunction().apply(x1), getFunction().apply(x2), getFunction().apply(x3));
+            this(x1, x2, x3, evaluateFunction(x1), evaluateFunction(x2), evaluateFunction(x3));
         }
         public Parabola(final double x1, final double x2, final double x3, final double f1, final double f2, double f3) {
             this.f1 = f1;

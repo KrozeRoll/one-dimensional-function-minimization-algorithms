@@ -45,14 +45,17 @@ public class Brent extends AbstractParaboloidMinFinder {
         leftBorder = getLeftBorder();
         rightBorder = getRightBorder();
         ArrayList<Interval> intervals = new ArrayList<>();
+        ArrayList<Function<Double, Double>> functions = new ArrayList<>();
         ArrayList<Double> approximatelyMinimums = new ArrayList<>();
         x = w = v = leftBorder + K * (rightBorder - leftBorder);
         intervals.add(new Interval(leftBorder, rightBorder));
         approximatelyMinimums.add(x);
-        fx = fw = fv = getFunction().apply(x);
+        fx = fw = fv = evaluateFunction(x);
         d = e = rightBorder - leftBorder;
         double tol;
+        Parabola parabola;
         while (compare(Math.abs(rightBorder - leftBorder), getEps()) > 0) {
+            parabola = null;
             g = e;
             e = d;
             tol = getEps() * Math.abs(x) + getEps() / 10;
@@ -60,7 +63,8 @@ public class Brent extends AbstractParaboloidMinFinder {
                 break;
             }
             if (areDifferent(x, w, v) && areDifferent(fx, fw, fv)) {
-                u = getParabolaMin(x, w, v, fx, fw, fv);
+                parabola = new Parabola(x, w, v, fx, fw, fv);
+                u = parabola.getPointOfMin();
                 if (compare(u, leftBorder) >= 0 && compare(u, rightBorder) <= 0 && compare(Math.abs(u - x), g * 0.5) < 0) {
                     if (compare((u - leftBorder), 2 * tol) < 0 || compare((rightBorder - u), 2 * tol) < 0) {
                         u = x - Math.signum(x - (leftBorder + rightBorder) * 0.5) * tol;
@@ -79,7 +83,7 @@ public class Brent extends AbstractParaboloidMinFinder {
                 u = x + Math.signum(u - x) * tol;
             }
             d = Math.abs(u - x);
-            fu = getFunction().apply(u);
+            fu = evaluateFunction(u);
             if (compare(fu, fx) <= 0) {
                 if (compare(u, x) >= 0) {
                     leftBorder = x;
@@ -109,11 +113,11 @@ public class Brent extends AbstractParaboloidMinFinder {
                 }
             }
             intervals.add(new Interval(leftBorder, rightBorder));
+            functions.add((parabola == null) ? null : parabola.getParabolaFunction());
             approximatelyMinimums.add(x);
         }
 
-//        return new Solution(intervals, approximatelyMinimums);
-        return null;
+        return new ParaboloidSolution(intervals, approximatelyMinimums, functions);
     }
 
     private boolean notEqual(double lhs, double rhs) {
@@ -124,10 +128,5 @@ public class Brent extends AbstractParaboloidMinFinder {
         return notEqual(a, b) && notEqual(b, c) && notEqual(a, c);
     }
 
-
-    private double getParabolaMin(double x1, double x2, double x3, double f1, double f2, double f3) {
-        return x2 - 0.5 * (Math.pow(x2 - x1, 2) * (f2 - f3) - Math.pow(x2 - x3, 2) * (f2 - f1)) /
-                ((x2 - x1) * (f2 - f3) - (x2 - x3) * (f2 - f1));
-    }
 
 }

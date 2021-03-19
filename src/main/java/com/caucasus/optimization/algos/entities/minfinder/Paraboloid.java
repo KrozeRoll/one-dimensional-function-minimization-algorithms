@@ -46,14 +46,14 @@ public class Paraboloid extends AbstractParaboloidMinFinder {
         double x1 = leftBorder;
         double x2 = (leftBorder + rightBorder) * 0.5;
         double x3 = rightBorder;
-        double f1 = getFunction().apply(x1);
-        double f2 = getFunction().apply(x2);
-        double f3 = getFunction().apply(x3);
+        double f1 = evaluateFunction(x1);
+        double f2 = evaluateFunction(x2);
+        double f3 = evaluateFunction(x3);
         Parabola parabola = new Parabola(x1, x2, x3);
         approximatelyMinimums.add(parabola.getPointOfMin());
         functions.add(parabola.getParabolaFunction());
         while (!validateAccuracy(leftBorder, rightBorder)) {
-            double fm = getFunction().apply(parabola.getPointOfMin());
+            double fm = evaluateFunction(parabola.getPointOfMin());
             if (compare(x1, parabola.getPointOfMin()) < 0 && compare(parabola.getPointOfMin(), x2) < 0
                     && compare(fm, f2) >= 0) {
                 leftBorder = parabola.getPointOfMin();

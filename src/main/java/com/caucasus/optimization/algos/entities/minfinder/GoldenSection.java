@@ -47,8 +47,8 @@ public class GoldenSection extends AbstractIntervalMinFinder {
         intervals.add(new Interval(leftBorder, rightBorder));
         double x1 = leftBorder + (1 - TAU) * (rightBorder - leftBorder);
         double x2 = leftBorder + TAU * (rightBorder - leftBorder);
-        double f1 = getFunction().apply(x1);
-        double f2 = getFunction().apply(x2);
+        double f1 = evaluateFunction(x1);
+        double f2 = evaluateFunction(x2);
         double nthEps = (rightBorder - leftBorder) * 0.5;
         do {
             if (compare(f1, f2) <= 0) {
@@ -56,13 +56,13 @@ public class GoldenSection extends AbstractIntervalMinFinder {
                 x2 = x1;
                 f2 = f1;
                 x1 = rightBorder - TAU * (rightBorder - leftBorder);
-                f1 = getFunction().apply(x1);
+                f1 = evaluateFunction(x1);
             } else {
                 leftBorder = x1;
                 x1 = x2;
                 f1 = f2;
                 x2 = leftBorder + TAU * (rightBorder - leftBorder);
-                f2 = getFunction().apply(x2);
+                f2 = evaluateFunction(x2);
             }
             nthEps *= TAU;
             intervals.add(new Interval(leftBorder, rightBorder));

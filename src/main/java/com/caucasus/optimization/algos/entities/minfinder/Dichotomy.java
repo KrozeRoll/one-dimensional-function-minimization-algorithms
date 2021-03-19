@@ -46,7 +46,7 @@ public class Dichotomy extends AbstractIntervalMinFinder {
         while (!validateAccuracy(leftBorder, rightBorder)) {
             final double x1 = (leftBorder + rightBorder - getDelta()) * 0.5;
             final double x2 = (leftBorder + rightBorder + getDelta()) * 0.5;
-            if (compare(getFunction().apply(x1), getFunction().apply(x2)) <= 0) {
+            if (compare(evaluateFunction(x1), evaluateFunction(x2)) <= 0) {
                 rightBorder = x2;
             } else {
                 leftBorder = x1;
