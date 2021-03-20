@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-
 import java.util.function.Function;
 
 public class MainController {
@@ -35,13 +34,12 @@ public class MainController {
     final String NUMBER_FORMAT = "%.7f";
     final private XYChart.Series<Double, Double> functionSeries = plotLineSeries(function, interval);
 
-    private Solution dichotomySolution, goldenSectionSolution, fibonacciSolution, brentSolution;
-    private ParaboloidSolution paraboloidSolution;
+    private Solution dichotomySolution, goldenSectionSolution, fibonacciSolution;
+    private ParaboloidSolution paraboloidSolution, brentSolution;
 
     private Methods currentMethod = Methods.DICHOTOMY;
 
     private int iterationNumber;
-
 
     public void initialize() {
         iterationSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -52,8 +50,6 @@ public class MainController {
         makeToggleGroup();
         calculateSolutions(DEFAULT_EPS);
         dichotomyButton.fire();
-        lineChart.setCreateSymbols(false);
-        lineChart.setLegendVisible(false);
         updateWindow();
     }
 
@@ -66,7 +62,6 @@ public class MainController {
         brentButton.setToggleGroup(group);
     }
 
-
     private void updateWindow() {
         iterationNumberLabel.setText(Integer.toString(iterationNumber));
         double left = getCurrentSolution().getIntervals().get(iterationNumber).getLeftBorder();
@@ -78,10 +73,14 @@ public class MainController {
 
         clearChart();
         lineChart.getData().add(functionSeries);
-        if (currentMethod.needPlot) {
-            Function<Double, Double> parabola = getCurrentParaboloidSolution().getParabolas().get(iterationNumber);
-            drawParaboloid(parabola, interval);
-            addPointToChart(approx, parabola.apply(approx), "green");
+        if (currentMethod.isNeedPlot()) {
+            Function <Double, Double> parabola = getCurrentParaboloidSolution().getParabolas().get(iterationNumber);
+            if (parabola == null) {
+                drawBorderPoints(left, right, approx);
+            } else {
+                drawParaboloid(parabola, interval);
+                addPointToChart(approx, parabola.apply(approx), "green");
+            }
         } else {
             drawBorderPoints(left, right, approx);
         }
@@ -139,18 +138,17 @@ public class MainController {
     }
 
     private void updateButtonsText() {
-        updateTougleButtonText(dichotomyButton, Methods.DICHOTOMY);
-        updateTougleButtonText(goldenSectionButton, Methods.GOLDEN_SECTION);
-        updateTougleButtonText(fibonacciButton, Methods.FIBONACCI);
-        updateTougleButtonText(paraboloidButton, Methods.PARABOLOID);
-        updateTougleButtonText(dichotomyButton, Methods.DICHOTOMY);
-        updateTougleButtonText(brentButton, Methods.BRENT);
+        updateToggleButtonText(dichotomyButton, Methods.DICHOTOMY);
+        updateToggleButtonText(goldenSectionButton, Methods.GOLDEN_SECTION);
+        updateToggleButtonText(fibonacciButton, Methods.FIBONACCI);
+        updateToggleButtonText(paraboloidButton, Methods.PARABOLOID);
+        updateToggleButtonText(dichotomyButton, Methods.DICHOTOMY);
+        updateToggleButtonText(brentButton, Methods.BRENT);
     }
 
-    private void updateTougleButtonText(ToggleButton button, Methods method) {
+    private void updateToggleButtonText(ToggleButton button, Methods method) {
         button.setText(method.getLabelString() + "\n" + String.format(NUMBER_FORMAT, getMethodSolution(method).getEndPoint()));
     }
-
 
     @FXML
     private void clickCalculate() {
@@ -168,23 +166,24 @@ public class MainController {
     private Solution getMethodSolution(Methods method) {
         Solution solution;
         switch (method) {
-            case DICHOTOMY:
-                solution = dichotomySolution;
-                break;
-            case GOLDEN_SECTION:
-                solution = goldenSectionSolution;
-                break;
-            case FIBONACCI:
-                solution = fibonacciSolution;
-                break;
-            case PARABOLOID:
-                solution = paraboloidSolution;
-                break;
-            case BRENT:
-                solution = brentSolution;
-                break;
+            case DICHOTOMY: solution = dichotomySolution; break;
+            case GOLDEN_SECTION: solution = goldenSectionSolution; break;
+            case FIBONACCI: solution = fibonacciSolution; break;
+            case PARABOLOID: solution = paraboloidSolution; break;
+            case BRENT: solution = brentSolution; break;
             default:
-                throw new IllegalStateException("Unexpected value: " + currentMethod);
+                throw new IllegalStateException("Unexpected method: " + currentMethod);
+        }
+        return solution;
+    }
+
+    private ParaboloidSolution getMethodParaboloidSolution(Methods method) {
+        ParaboloidSolution solution;
+        switch (method) {
+            case PARABOLOID: solution = paraboloidSolution; break;
+            case BRENT: solution = brentSolution; break;
+            default:
+                throw new IllegalStateException("Unexpected method: " + currentMethod);
         }
         return solution;
     }
@@ -194,17 +193,11 @@ public class MainController {
     }
 
     private ParaboloidSolution getCurrentParaboloidSolution() {
-        ParaboloidSolution solution;
-        if (currentMethod == Methods.PARABOLOID) {
-            solution = paraboloidSolution;
-        } else {
-            throw new IllegalStateException("Unexpected value: " + currentMethod);
-        }
-        return solution;
+        return getMethodParaboloidSolution(currentMethod);
     }
 
-    private void setupMethod(Methods choosedMethod) {
-        currentMethod = choosedMethod;
+    private void setupMethod(Methods chosenMethod) {
+        currentMethod = chosenMethod;
         iterationSlider.setValue(0);
         iterationSlider.setMax(getCurrentSolution().getIntervals().size() - 1);
         methodName.setText(currentMethod.getLabelString());

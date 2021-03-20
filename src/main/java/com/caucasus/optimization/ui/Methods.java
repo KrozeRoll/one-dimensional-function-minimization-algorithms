@@ -5,10 +5,10 @@ public enum Methods {
     GOLDEN_SECTION("Golden section method", false),
     FIBONACCI("Fibonacci method", false),
     PARABOLOID("Paraboloid method", true),
-    BRENT("Combined Brent method", false);
+    BRENT("Combined Brent method", true);
 
     private final String labelString;
-    boolean needPlot;
+    private boolean needPlot;
 
     Methods(String labelString, boolean needPlot) {
         this.labelString = labelString;
@@ -17,5 +17,9 @@ public enum Methods {
 
     public String getLabelString() {
         return labelString;
+    }
+
+    public boolean isNeedPlot() {
+        return needPlot;
     }
 }

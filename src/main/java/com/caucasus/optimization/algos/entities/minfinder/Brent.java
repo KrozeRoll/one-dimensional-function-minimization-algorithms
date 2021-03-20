@@ -47,6 +47,7 @@ public class Brent extends AbstractParaboloidMinFinder {
         ArrayList<Double> approximatelyMinimums = new ArrayList<>();
         x = w = v = leftBorder + K * (rightBorder - leftBorder);
         intervals.add(new Interval(leftBorder, rightBorder));
+        functions.add(null);
         approximatelyMinimums.add(x);
         fx = fw = fv = evaluateFunction(x);
         d = e = rightBorder - leftBorder;
