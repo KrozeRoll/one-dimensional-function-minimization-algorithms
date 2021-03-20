@@ -2,8 +2,6 @@ package com.caucasus.optimization.algos.entities.minfinder;
 
 import com.caucasus.optimization.algos.entities.util.Interval;
 import com.caucasus.optimization.algos.entities.util.ParaboloidSolution;
-import com.caucasus.optimization.algos.entities.util.Solution;
-import com.caucasus.optimization.algos.interfaces.ParaboloidMinFinder;
 
 import java.util.ArrayList;
 import java.util.function.Function;

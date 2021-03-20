@@ -132,7 +132,7 @@ public class MainController {
         dichotomySolution = new Dichotomy(function, interval, eps).getSolution();
         goldenSectionSolution = new GoldenSection(function, interval, eps).getSolution();
         fibonacciSolution = new Fibonacci(function, interval, eps).getSolution();
-        brentSolution = new Brent(function, interval, eps).getSolution();
+        brentSolution = new Brent(function, interval, eps).getParaboloidSolution();
         paraboloidSolution = new Paraboloid(function, interval, eps).getParaboloidSolution();
 
         updateButtonsText();
